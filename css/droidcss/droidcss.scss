@@ -1,0 +1,20 @@
+// Initializing mixins
+@import 'mixins/init';
+
+// Loading variables
+@import 'partials/setup';
+
+// Adding fonts // THIS SHOULD BE LEFT AT THE TOP
+@import 'partials/fonts';
+
+// Adding reset
+@import 'partials/reset';
+
+// Adding default styles
+@import 'partials/defaults';
+
+// Adding grid
+@import 'partials/grid';
+
+// Adding responsive
+@import 'partials/responsive';

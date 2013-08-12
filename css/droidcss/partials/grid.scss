@@ -1,0 +1,56 @@
+// Getting number of columns and setting it's width
+@if $columns-count == 12 {
+  $column-width: 6;
+} @else {
+  $column-width: 4;
+}
+
+.grid-container {
+  max-width: $grid-width;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+  &:before, &:after {
+    content: ".";
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+}
+
+%grid-settings {
+  margin-left: $gutter-width;
+  margin-right: $gutter-width;
+  float: left;
+  @include box-sizing(border-box);
+}
+
+%position-relative {
+  position: relative;
+}
+
+@for $i from 1 through $columns-count {
+  $num: $i;
+  .grid-#{$num} {
+    @extend %grid-settings;
+  }
+  .push-#{$num}, .pull-#{$num} {
+    @extend %position-relative;
+  }
+}
+
+@for $i from 1 through $columns-count {
+  $num: $i;
+  $content-width: $num * $gutter-width * $column-width + ($num - 1) * 2 * $gutter-width; // (column number * gutter width * (column width in px + current step - 1) * 2 * gutter width)
+
+  .grid-#{$num} { width: $content-width; }
+  .prefix-#{$num} { margin-left: $content-width; }
+  .suffix-#{$num} { margin-right: $content-width; }
+  .push-#{$num} { left: $content-width; }
+  .pull-#{$num} { left: -$content-width; }
+}
