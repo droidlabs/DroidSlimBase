@@ -1,0 +1,122 @@
+// Responsive vars
+$media-mobile-max: 767px !default;
+$media-tablet-min: 768px !default;
+$media-tablet-max: 1024px !default;
+$media-desktop-min: 1025px !default;
+
+// Grid width
+$grid-width: 960px !default;
+$columns-count: 12 !default; // 12 or 16 columns
+$gutter-width: 1.04166666666% !default;
+$column-width: 6 !default; // Column width
+
+// Getting number of columns and setting it's width
+@if $columns-count == 12 {
+  $column-width: 6;
+} @else {
+  $column-width: 4;
+}
+
+.grid-container {
+  max-width: $grid-width;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+  &:before, &:after {
+    content: ".";
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+}
+
+%grid-settings {
+  margin-left: $gutter-width;
+  margin-right: $gutter-width;
+  float: left;
+  @include box-sizing(border-box);
+}
+
+%position-relative {
+  position: relative;
+}
+
+@for $i from 1 through $columns-count {
+  $num: $i;
+  .grid-#{$num} {
+    @extend %grid-settings;
+  }
+  .push-#{$num}, .pull-#{$num} {
+    @extend %position-relative;
+  }
+}
+
+@for $i from 1 through $columns-count {
+  $num: $i;
+  $content-width: $num * $gutter-width * $column-width + ($num - 1) * 2 * $gutter-width; // (column number * gutter width * (column width in px + current step - 1) * 2 * gutter width)
+  .grid-#{$num} { width: $content-width; }
+  .prefix-#{$num} { margin-left: $content-width; }
+  .suffix-#{$num} { margin-right: $content-width; }
+  .push-#{$num} { left: $content-width; }
+  .pull-#{$num} { left: -$content-width; }
+}
+
+/* DESKTOP SUPPORT */
+
+@media screen and (min-width: $media-desktop-min) {
+  .hide-on-desktop, .only-tablet, .only-mobile {
+    display: none !important;
+  }
+}
+
+/* TABLET SUPPORT */
+
+@media screen and (min-width: $media-tablet-min) and (max-width: $media-tablet-max) {
+
+  .grid-container {
+    max-width: 100%;
+    padding-left: $gutter-width;
+    padding-right: $gutter-width;
+  }
+  .hide-on-tablet, .only-desktop, .only-mobile {
+    display: none !important;
+  }
+
+  @for $i from 1 through $columns-count {
+    $num: $i;
+    $content-width: $num * $gutter-width * $column-width + ($num - 1) * 2 * $gutter-width; // (column number * gutter width * (column width in px + current step - 1) * 2 * gutter width)
+    .grid-tablet-#{$num} { width: $content-width; }
+    .prefix-tablet-#{$num} { margin-left: $content-width; }
+    .suffix-tablet-#{$num} { margin-right: $content-width; }
+    .push-tablet-#{$num} { left: $content-width; }
+    .pull-tablet-#{$num} { left: -$content-width; }
+  }
+}
+
+/* MOBILE SUPPORT */
+
+@media screen and (max-width: $media-mobile-max) {
+  .grid-container {
+    max-width: 100%;
+    padding-left: $gutter-width;
+    padding-right: $gutter-width;
+  }
+  .hide-on-mobile, .only-desktop, .only-tablet {
+    display: none !important;
+  }
+
+  @for $i from 1 through $columns-count {
+    $num: $i;
+    $content-width: $num * $gutter-width * $column-width + ($num - 1) * 2 * $gutter-width; // (column number * gutter width * (column width in px + current step - 1) * 2 * gutter width)
+    .grid-mobile-#{$num} { width: $content-width; }
+    .prefix-mobile-#{$num} { margin-left: $content-width; }
+    .suffix-mobile-#{$num} { margin-right: $content-width; }
+    .push-mobile-#{$num} { left: $content-width; }
+    .pull-mobile-#{$num} { left: -$content-width; }
+  }
+}

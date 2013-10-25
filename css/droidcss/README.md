@@ -6,11 +6,42 @@ Small responsive framework with grids and couple mixins. We've took the most use
 
 ## What's under the hood?
 
-* CSS Reset
+* Normalize.css
 * CSS3 Mixins
 * Compiled CSS file (from SCSS)
 
-## How to use with SCSS
+## How to use DroidCSS within Rails/Sinatra application
+
+#### Step 1: Include gem
+
+Add DroidCSS to your Gemfile & run 'bundle install' in the terminal:
+
+    gem 'droidcss'
+
+#### Step 2: Set variables
+
+Set variables if needed. Otherwise, skip to the next step.
+
+Create a file called setup.scss in 'partials' folder and declare it right before any DroidCSS files declaration. You main SCSS (probably, it will be application.scss) file will look like this:
+
+    @import 'partials/setup';
+
+
+#### Step 3.1: Application without web-fonts (@font-face)
+
+Import DroidCSS main file:
+
+    @import 'droidcss';
+
+#### Step 3.2: Application with web-fonts (@font-face)
+
+Create a new file 'fonts.scss' in 'partials' folder. Place font-face mixins in fonts.scss file. Then import all needed files in the main scss file:
+
+    @import 'droidcss/mixins';
+    @import 'partials/fonts';
+    @import 'droidcss/base';
+
+## How to use SCSS without Rails/Sinatra application
 
 On Mac it's easy to use it with:
 
@@ -18,6 +49,10 @@ On Mac it's easy to use it with:
 * [CodeKit](http://incident57.com/codekit/)
 * [Hammer](http://www.hammerformac.com/)
 * [LiveReload](http://www.livereload.com/)
+
+Just drag&drop DroidCSS folder into the application, then point your html file to DroidCSS. For example:
+
+    <link href="droidcss/droidcss.css" rel="stylesheet">
 
 ## Variables
 
@@ -108,8 +143,8 @@ CSS output result:
 
     @font-face {
       font-family: "MuseoSans";
-      font-weight: "700";
-      font-style: "italic";
+      font-weight: 700;
+      font-style: italic;
       src: url("/assets/fonts/museosans-bold-italic.eot");
       src: url("/assets/fonts/museosans-bold-italic.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/museosans-bold-italic.woff") format("woff"), url("/assets/fonts/museosans-bold-italic.ttf") format("truetype"), url("/assets/fonts/museosans-bold-italic.svg#MuseoSans") format("svg");
     }
@@ -138,6 +173,65 @@ CSS output result:
     -moz-transition: opacity 0.2s linear;
     transition: opacity 0.2s linear;
 
+#### Size:
+
+Usage:
+
+    @include size(100px, 200px);
+
+CSS output result:
+
+    width: 100px;
+    height: 200px;
+
+#### Square:
+
+Usage:
+
+    @include square(100px);
+
+CSS output result:
+
+    width: 100px;
+    height: 100px;
+
+#### Triangle:
+
+Creates a triangle. Arguments: ($size, $color, $direction)
+
+$direction may be:
+
+* up
+* down
+* left
+* right
+
+Usage:
+
+    @include triangle(10px, #ccc, down);
+
+CSS output result:
+
+    height: 0;
+    width: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px;
+    border-top-color: #ccc;
+
+#### Placeholder:
+
+Usage:
+
+    @include placeholder(#ccc, italic);
+
+CSS output result:
+
+    :-moz-placeholder            { color: #ccc; font-style:italic;} // Firefox 4-18
+    ::-moz-placeholder           { color: #ccc; font-style:italic; } // Firefox 19+
+    :-ms-input-placeholder       { color: #ccc; font-style:italic; } // Internet Explorer 10+
+    ::-webkit-input-placeholder  { color: #ccc; font-style:italic; } // Safari and Chrome
+
 ## Default classes
 
 Default classes available in *partials/defaults.scss*:
@@ -147,6 +241,10 @@ Default classes available in *partials/defaults.scss*:
 * .text-left, .text-center, .text-right - align text left, centered or right
 * .clear - clearing blocks
 * .clearfix - clearfix for blocks
+
+## Contributors
+
+Thanks for contributing into the gem, [Alexander](https://github.com/selivandex)!
 
 ## License
 
